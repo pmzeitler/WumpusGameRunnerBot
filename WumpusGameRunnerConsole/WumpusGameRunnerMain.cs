@@ -9,7 +9,6 @@ using DSharpPlus;
 using DSharpPlus.EventArgs;
 
 //client id: 406197905146511360
-//token for test usage: NDA2MTk3OTA1MTQ2NTExMzYw.DUvdFA.7-ixnIzKK3WT-it4-uEDUQ4fVd0
 // link to add to a server:
 // https://discordapp.com/oauth2/authorize?client_id=406197905146511360&scope=bot&permissions=0
 
@@ -54,16 +53,8 @@ namespace com.PhoebeZeitler.WumpusGameRunnerConsole
                 LogLevel = LogLevel.Debug,
                 UseInternalLogHandler = true
             };
-
-
-
-
-
-            discord = new DiscordClient(new DiscordConfiguration
-            {
-                Token = "NDA2MTk3OTA1MTQ2NTExMzYw.DUvdFA.7-ixnIzKK3WT-it4-uEDUQ4fVd0",
-                TokenType = TokenType.Bot
-            });
+            
+            discord = new DiscordClient(cfg);
 
             discord.MessageCreated += async e =>
             {
