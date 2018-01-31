@@ -4,16 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A977D0FE-60B9-4E11-BE3A-1A8E9F9AAED1}</ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <RootNamespace>WumpusGameRunnerConsole</RootNamespace>
-    <AssemblyName>WumpusGameRunnerConsole</AssemblyName>
+    <ProjectGuid>{82E41CC5-180D-46D8-9712-3A9DA7F3AEA6}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>GoldenSkyStoriesModule</RootNamespace>
+    <AssemblyName>GoldenSkyStoriesModule</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -23,7 +22,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -51,23 +49,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="WumpusGameRunnerMain.cs" />
+    <Compile Include="GoldenSkyStoriesModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-    <None Include="config.example.json" />
-    <None Include="config.json" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\GoldenSkyStoriesModule\GoldenSkyStoriesModule.csproj">
-      <Project>{82e41cc5-180d-46d8-9712-3a9da7f3aea6}</Project>
-      <Name>GoldenSkyStoriesModule</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>copy $(ProjectDir)config.json $(TargetDir)</PostBuildEvent>
-  </PropertyGroup>
 </Project>

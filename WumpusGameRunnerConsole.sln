@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WumpusGameRunnerConsole", "WumpusGameRunnerConsole\WumpusGameRunnerConsole.csproj", "{A977D0FE-60B9-4E11-BE3A-1A8E9F9AAED1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoldenSkyStoriesModule", "GoldenSkyStoriesModule\GoldenSkyStoriesModule.csproj", "{82E41CC5-180D-46D8-9712-3A9DA7F3AEA6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{A977D0FE-60B9-4E11-BE3A-1A8E9F9AAED1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A977D0FE-60B9-4E11-BE3A-1A8E9F9AAED1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A977D0FE-60B9-4E11-BE3A-1A8E9F9AAED1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{82E41CC5-180D-46D8-9712-3A9DA7F3AEA6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82E41CC5-180D-46D8-9712-3A9DA7F3AEA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82E41CC5-180D-46D8-9712-3A9DA7F3AEA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82E41CC5-180D-46D8-9712-3A9DA7F3AEA6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
