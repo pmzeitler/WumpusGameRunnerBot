@@ -12,11 +12,10 @@ namespace com.PhoebeZeitler.WumpusGameRunnerConsole.GoldenSkyStoriesModule
     {
         [JsonProperty("listMentions")]
         public Boolean ListMentions { get; private set; }
+        [JsonProperty("channelTag")]
+        public string ChannelTag { get; private set; }
 
         /**
-        [JsonProperty("prefix")]
-        public string CommandPrefix { get; private set; }
-
         [JsonProperty("appIdentifier")]
         public string AppIdentifier { get; private set; }
         **/
@@ -43,6 +42,14 @@ namespace com.PhoebeZeitler.WumpusGameRunnerConsole.GoldenSkyStoriesModule
             get
             {
                 return _config.ListMentions;
+            }
+        }
+
+        public static String ChannelTag
+        {
+            get
+            {
+                return _config.ChannelTag;
             }
         }
 
