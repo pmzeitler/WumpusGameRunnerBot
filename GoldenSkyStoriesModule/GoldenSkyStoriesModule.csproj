@@ -50,10 +50,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GoldenSkyStoriesModule.cs" />
+    <Compile Include="GSSModuleConfig.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="gssconfig.json" />
+    <None Include="gssconfig.example.json" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy $(ProjectDir)gssconfig.json $(SolutionDir)\WumpusGameRunnerConsole\bin\Debug\</PostBuildEvent>
+  </PropertyGroup>
 </Project>

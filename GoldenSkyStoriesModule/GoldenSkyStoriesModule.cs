@@ -13,11 +13,7 @@ namespace com.PhoebeZeitler.WumpusGameRunnerConsole.GoldenSkyStoriesModule
     public class GoldenSkyStoriesModule
     {
         private Dictionary<DiscordChannel, Dictionary<DiscordMember, String>> masterChannelList;
-
-
-
-
-
+        
         [Command("ping")] // let's define this method as a command
         [Description("Example ping command")] // this will be displayed to tell users what this command does when they invoke help
         [Aliases("pong")] // alternative names for the command
@@ -54,7 +50,7 @@ namespace com.PhoebeZeitler.WumpusGameRunnerConsole.GoldenSkyStoriesModule
             }
         }
 
-        [Command("list_players"), Description("Register a character name."), Aliases("listall", "listplayers")]
+        [Command("list_players"), Description("Returns the list of players registered for this game, and the characters they are playing."), Aliases("listp", "listplayers")]
         public async Task ListPlayers(CommandContext ctx)
         {
             await ctx.TriggerTypingAsync();
@@ -75,7 +71,50 @@ namespace com.PhoebeZeitler.WumpusGameRunnerConsole.GoldenSkyStoriesModule
                 {
                     foreach (var item in playerList)
                     {
-                        await ctx.RespondAsync($"User {item.Key.Mention} is {item.Value}.");
+                        if (GSSModuleConfig.ListMentions)
+                        {
+                            await ctx.RespondAsync($"User {Formatter.Bold(item.Key.Mention)} is playing the character of {item.Value}.");
+                        }
+                        else
+                        {
+                            await ctx.RespondAsync($"User {Formatter.Bold(item.Key.DisplayName)} is playing the character of {item.Value}.");
+                        }
+                    }
+                }
+            }
+        }
+
+
+        [Command("list_characters"), Description("Returns the list of characters registered for this game, and the players who are playing them."), Aliases("listc", "listchars")]
+        public async Task ListCharacters(CommandContext ctx)
+        {
+            await ctx.TriggerTypingAsync();
+
+            DiscordChannel channel = ctx.Channel;
+
+            if (channel == null)
+            {
+                await ctx.RespondAsync("You cannot list characters for a game via direct message. Please re-try your request in a channel.");
+            }
+            else
+            {
+                Dictionary<DiscordMember, string> playerList = _GetPlayerList(channel);
+                if (playerList.Count == 0)
+                {
+                    await ctx.RespondAsync("There is no Golden Sky Stories game currently running in this channel.");
+                }
+                else
+                {
+                    foreach (var item in playerList)
+                    {
+                        if (GSSModuleConfig.ListMentions)
+                        {
+                            await ctx.RespondAsync($"Character {Formatter.Bold(item.Value)} is played by {item.Key.Mention}.");
+                        }
+                        else
+                        {
+                            await ctx.RespondAsync($"Character {Formatter.Bold(item.Value)} is played by {item.Key.DisplayName}.");
+                        }
                     }
                 }
             }
