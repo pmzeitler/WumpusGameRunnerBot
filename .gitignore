@@ -299,3 +299,4 @@ __pycache__/
 *.xsd.cs
 WumpusGameRunnerConsole/config.json
 GoldenSkyStoriesModule/gssconfig.json
+WumpusGameRunnerConsole/gssconfig.json
