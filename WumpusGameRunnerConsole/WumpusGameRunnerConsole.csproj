@@ -51,8 +51,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GoldenSkyStoriesModule.cs" />
-    <Compile Include="GSSModuleConfig.cs" />
+    <Compile Include="GoldenSkyStories\GoldenSkyStoriesModule.cs" />
+    <Compile Include="GoldenSkyStories\GSSModuleConfig.cs" />
+    <Compile Include="MasterCommands.cs" />
+    <Compile Include="MasterDataSingleton.cs" />
+    <Compile Include="ModuleDataSource.cs" />
     <Compile Include="WumpusGameRunnerMain.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -60,8 +63,8 @@
     <None Include="App.config" />
     <None Include="config.example.json" />
     <None Include="config.json" />
-    <None Include="gssconfig.example.json" />
-    <None Include="gssconfig.json" />
+    <None Include="GoldenSkyStories\gssconfig.example.json" />
+    <None Include="GoldenSkyStories\gssconfig.json" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

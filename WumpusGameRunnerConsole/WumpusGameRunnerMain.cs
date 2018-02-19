@@ -14,7 +14,7 @@ using Newtonsoft.Json;
 // link to add to a server:
 // https://discordapp.com/oauth2/authorize?client_id=406197905146511360&scope=bot&permissions=0
 
-namespace com.PhoebeZeitler.WumpusGameRunnerConsole
+namespace net.PhoebeZeitler.WumpusGameRunnerConsole
 {
     public delegate void ModuleRegistration(CommandsNextModule Commands);
 
@@ -109,7 +109,7 @@ namespace com.PhoebeZeitler.WumpusGameRunnerConsole
 
             //LoadModules();
             //This is a temporary fix while I learn & figure out more about DI and the modular system...
-            this.Commands.RegisterCommands<GoldenSkyStoriesModule.GoldenSkyStoriesModule>();
+            this.Commands.RegisterCommands<MasterCommands>();
 
             /**
             discord.MessageCreated += async e =>

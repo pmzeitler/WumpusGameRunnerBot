@@ -300,3 +300,4 @@ __pycache__/
 WumpusGameRunnerConsole/config.json
 GoldenSkyStoriesModule/gssconfig.json
 WumpusGameRunnerConsole/gssconfig.json
+WumpusGameRunnerConsole/GoldenSkyStories/gssconfig.json

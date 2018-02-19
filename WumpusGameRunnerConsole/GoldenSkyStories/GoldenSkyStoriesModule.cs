@@ -8,27 +8,13 @@ using DSharpPlus.CommandsNext.Attributes;
 using DSharpPlus.Entities;
 using System.Threading.Tasks;
 
-namespace com.PhoebeZeitler.WumpusGameRunnerConsole.GoldenSkyStoriesModule
+namespace net.PhoebeZeitler.WumpusGameRunnerConsole.GoldenSkyStoriesModule
 {
     public class GoldenSkyStoriesModule
     {
         private Dictionary<DiscordChannel, Dictionary<DiscordMember, String>> masterChannelList;
         
-        [Command("ping")] // let's define this method as a command
-        [Description("Example ping command")] // this will be displayed to tell users what this command does when they invoke help
-        [Aliases("pong")] // alternative names for the command
-        public async Task Ping(CommandContext ctx) // this command takes no arguments
-        {
-            // let's trigger a typing indicator to let
-            // users know we're working
-            await ctx.TriggerTypingAsync();
 
-            // let's make the message a bit more colourful
-            var emoji = DiscordEmoji.FromName(ctx.Client, ":ping_pong:");
-
-            // respond with ping
-            await ctx.RespondAsync($"{emoji} Pong! Ping: {ctx.Client.Ping}ms");
-        }
 
         [Command("reg_player"), Description("Register a character name."), Aliases("regplayer")]
         public async Task RegisterPlayer(CommandContext ctx, [Description("The character name for the player.")] string CharacterName)

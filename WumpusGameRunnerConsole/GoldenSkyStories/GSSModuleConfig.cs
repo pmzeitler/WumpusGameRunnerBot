@@ -6,7 +6,7 @@ using System.IO;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-namespace com.PhoebeZeitler.WumpusGameRunnerConsole.GoldenSkyStoriesModule
+namespace net.PhoebeZeitler.WumpusGameRunnerConsole.GoldenSkyStoriesModule
 {
     public struct GSSConfigJson
     {
