@@ -15,7 +15,7 @@ namespace net.PhoebeZeitler.WumpusGameRunnerConsole
         protected delegate Task CommandType(CommandContext ctx, string[] arguments);
 
         private Dictionary<String, CommandType> _commandDelegates;
-        protected ModuleDataSource _dataSource;
+        private MasterDataSingleton _dataSource;
         protected SupportedGameIdentifier _moduleIdentifier;
 
         protected GameModuleBase()
@@ -33,6 +33,16 @@ namespace net.PhoebeZeitler.WumpusGameRunnerConsole
         protected abstract Task AddPlayer(CommandContext ctx, string[] arguments);
         protected abstract Task RemovePlayer(CommandContext ctx, string[] arguments);
         protected abstract Task ListPlayers(CommandContext ctx, string[] arguments);
+
+        protected ModuleDataSource ChannelData(CommandContext ctx)
+        {
+            ModuleDataSource retval = _dataSource.GetDataSource(ctx.Channel);
+            if (retval == null)
+            {
+                ctx.RespondAsync($"Sorry, I can't find any { Formatter.Bold(_moduleIdentifier.Name)} data for {Formatter.Bold(ctx.Channel.Name)}. This will probably throw an error.");
+            }
+            return retval;
+        }
 
         public virtual async Task ProcessCommand(CommandContext ctx, string commandName, string[] arguments)
         {
