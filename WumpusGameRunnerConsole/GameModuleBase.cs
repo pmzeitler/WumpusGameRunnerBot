@@ -15,7 +15,6 @@ namespace net.PhoebeZeitler.WumpusGameRunnerConsole
         protected delegate Task CommandType(CommandContext ctx, string[] arguments);
 
         private Dictionary<String, CommandType> _commandDelegates;
-        private MasterDataSingleton _dataSource;
         protected SupportedGameIdentifier _moduleIdentifier;
 
         protected GameModuleBase()
@@ -23,23 +22,22 @@ namespace net.PhoebeZeitler.WumpusGameRunnerConsole
             this._commandDelegates = new Dictionary<string, CommandType>();
             this.RegisterBaseDelegates();
             this.RegisterDelegates();
-            this.SetupDataSource();
             this.SetupGameIdentifier();
         }
 
         protected abstract void RegisterDelegates();
-        protected abstract void SetupDataSource();
         protected abstract void SetupGameIdentifier();
         protected abstract Task AddPlayer(CommandContext ctx, string[] arguments);
         protected abstract Task RemovePlayer(CommandContext ctx, string[] arguments);
         protected abstract Task ListPlayers(CommandContext ctx, string[] arguments);
+        protected abstract Task SetupGame(CommandContext ctx, string[] arguments);
 
-        protected ModuleDataSource ChannelData(CommandContext ctx)
+        protected ModuleDataSourceBase ChannelData(CommandContext ctx)
         {
-            ModuleDataSource retval = _dataSource.GetDataSource(ctx.Channel);
+            ModuleDataSourceBase retval = MasterDataSingleton.Instance.GetDataSource(ctx.Channel);
             if (retval == null)
             {
-                ctx.RespondAsync($"Sorry, I can't find any { Formatter.Bold(_moduleIdentifier.Name)} data for {Formatter.Bold(ctx.Channel.Name)}. This will probably throw an error.");
+                ctx.RespondAsync($"Sorry, I can't find any existing data for {Formatter.Bold(ctx.Channel.Name)}. This will probably throw an error.");
             }
             return retval;
         }
@@ -76,6 +74,7 @@ namespace net.PhoebeZeitler.WumpusGameRunnerConsole
             RegisterDelegateWithAliases(AddPlayer, new string[]{ "register_player", "reg_player", "add_player", "join_player", "regplayer", "registerplayer", "addplayer", "joinplayer" });
             RegisterDelegateWithAliases(RemovePlayer, new string[] { "remove_player", "drop_player", "leave_player", "removeplayer", "dropplayer", "leaveplayer" });
             RegisterDelegateWithAliases(ListPlayers, new string[] { "list_players", "whos_playing", "show_players", "listplayers", "whosplaying", "showplayers" });
+            RegisterDelegateWithAliases(SetupGame, new string[] { "setup_game", "setupgame", "start_game", "startgame", "new_game", "newgame" });
         }
 
     }

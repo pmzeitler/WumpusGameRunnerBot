@@ -54,6 +54,7 @@
     <Compile Include="GameModuleBase.cs" />
     <Compile Include="GoldenSkyStories\GoldenSkyStoriesModule.cs" />
     <Compile Include="GoldenSkyStories\GSSModuleConfig.cs" />
+    <Compile Include="GoldenSkyStories\GSSModuleDataSource.cs" />
     <Compile Include="MasterCommands.cs" />
     <Compile Include="MasterDataSingleton.cs" />
     <Compile Include="ModuleDataSource.cs" />

@@ -10,7 +10,7 @@ namespace net.PhoebeZeitler.WumpusGameRunnerConsole
     /**
      * This is the base class for all modules' data source objects.
      */
-    public abstract class ModuleDataSource
+    public abstract class ModuleDataSourceBase
     {
         private DiscordUser _gameRunner;
         private Dictionary<DiscordUser, ModuleCharacterSheet> _characters;

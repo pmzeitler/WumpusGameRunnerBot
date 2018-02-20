@@ -33,20 +33,20 @@ namespace net.PhoebeZeitler.WumpusGameRunnerConsole
         private List<SupportedGameIdentifier> _supportedGames;
 
         // Channel ID -> Module Data
-        private Dictionary<DiscordChannel, ModuleDataSource> _masterDataSource;
+        private Dictionary<DiscordChannel, ModuleDataSourceBase> _masterDataSource;
 
         /**
          * Default constructor
          **/
         private MasterDataSingleton()
         {
-            _masterDataSource = new Dictionary<DiscordChannel, ModuleDataSource>();
+            _masterDataSource = new Dictionary<DiscordChannel, ModuleDataSourceBase>();
             _supportedGames = new List<SupportedGameIdentifier>();
         }
 
-        public ModuleDataSource GetDataSource(DiscordChannel channel)
+        public ModuleDataSourceBase GetDataSource(DiscordChannel channel)
         {
-            ModuleDataSource retval = null;
+            ModuleDataSourceBase retval = null;
             if (_masterDataSource.ContainsKey(channel))
             {
                 retval = _masterDataSource[channel];
@@ -67,16 +67,16 @@ namespace net.PhoebeZeitler.WumpusGameRunnerConsole
         {
             return (_masterDataSource.ContainsKey(channel));           
         }
-        private void SetNewDataSource(DiscordChannel channel, ModuleDataSource dataSource)
+        private void SetNewDataSource(DiscordChannel channel, ModuleDataSourceBase dataSource)
         {
             _masterDataSource.Add(channel, dataSource);
         }
-        private void ReplaceDataSource(DiscordChannel channel, ModuleDataSource dataSource)
+        private void ReplaceDataSource(DiscordChannel channel, ModuleDataSourceBase dataSource)
         {
             _masterDataSource[channel] = dataSource;
         }
 
-        public void SetDataSourceForChannel(DiscordChannel channel, ModuleDataSource dataSource, bool safeMode = true)
+        public void SetDataSourceForChannel(DiscordChannel channel, ModuleDataSourceBase dataSource, bool safeMode = true)
         {
             if (!DoesDataExistForChannel(channel))
             {

@@ -7,6 +7,7 @@ using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
 using DSharpPlus.Entities;
 using System.Threading.Tasks;
+using net.PhoebeZeitler.WumpusGameRunnerConsole.GoldenSkyStoriesModule;
 
 
 namespace net.PhoebeZeitler.WumpusGameRunnerConsole
@@ -48,7 +49,41 @@ namespace net.PhoebeZeitler.WumpusGameRunnerConsole
             await ctx.RespondAsync($"Done! Channel {Formatter.Bold(ctx.Channel.Name)} is now running a game of {Formatter.Bold(gametype)} with {ctx.User.Mention} as game runner.");
         }
 
+        [Command("gamerunner")]
+        [Description("Prefix for all commands.\nExample: \ngamerunner gss start_game\nStart a new game using the gss module.")]
+        [Aliases("game,dm,run,do")]
+        public async Task ProcessCommand(CommandContext ctx, params string[] argumentsIn)
+        {
+            await ctx.TriggerTypingAsync();
 
+            string moduleName = "";
+            string commandName = "";
+            int startIndex = 0;
+            if (argumentsIn.Count() >= 1)
+            {
+                moduleName = argumentsIn[startIndex].ToLower();
+                //TODO: Check to see if this is an actual module name or alias; if not, the user may have skipped it
+                startIndex++;
+            }
+            if (argumentsIn.Count() >= 2)
+            {
+                commandName = argumentsIn[startIndex].ToLower();
+                startIndex++;
+            }
+            string[] argumentsToLower = new string[argumentsIn.Count() - startIndex];
+            for (int i = startIndex; i < argumentsIn.Count(); i++)
+            {
+                argumentsToLower[i] = argumentsIn[i].ToLower();
+            }
+
+            await ctx.RespondAsync($"OK, attempting to run {Formatter.Italic(commandName)} for module {Formatter.Italic(moduleName)}...");
+            await ctx.TriggerTypingAsync();
+
+            GameModuleBase module = new GoldenSkyStoriesModule.GoldenSkyStoriesModule();
+
+            await module.ProcessCommand(ctx, commandName, argumentsToLower);
+            
+        }
 
     }
 }

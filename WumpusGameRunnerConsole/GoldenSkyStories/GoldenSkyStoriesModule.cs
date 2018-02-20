@@ -7,130 +7,80 @@ using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
 using DSharpPlus.Entities;
 using System.Threading.Tasks;
+using DSharpPlus.Exceptions;
+using DSharpPlus.CommandsNext.Exceptions;
 
 namespace net.PhoebeZeitler.WumpusGameRunnerConsole.GoldenSkyStoriesModule
 {
-    public class GoldenSkyStoriesModule
+    public class GoldenSkyStoriesModule : GameModuleBase
     {
-        private Dictionary<DiscordChannel, Dictionary<DiscordMember, String>> masterChannelList;
-        
-
-
-        [Command("reg_player"), Description("Register a character name."), Aliases("regplayer")]
-        public async Task RegisterPlayer(CommandContext ctx, [Description("The character name for the player.")] string CharacterName)
+        public GoldenSkyStoriesModule() : base()
         {
-            // let's trigger a typing indicator to let
-            // users know we're working
-            await ctx.TriggerTypingAsync();
 
-            DiscordMember user = ctx.Member;
+        }
 
-            if (user == null)
+        protected GSSModuleDataSource DataSource(CommandContext ctx)
+        {
+            ModuleDataSourceBase dataSource = this.ChannelData(ctx);
+            if (dataSource == null)
             {
-                await ctx.RespondAsync("You cannot register for a game via direct message. Please re-try your request in a channel.");
+                throw new ChecksFailedException(ctx.Command, ctx, null);
+            }
+            else if (dataSource is GSSModuleDataSource)
+            {
+                return (GSSModuleDataSource)dataSource;
             }
             else
             {
-                _RegisterPlayerInChannel(ctx.Channel, user, CharacterName);
-                await ctx.RespondAsync($"Done! {user.DisplayName} is now registered for this game as {CharacterName}.");
-            }
-        }
-
-        [Command("list_players"), Description("Returns the list of players registered for this game, and the characters they are playing."), Aliases("listp", "listplayers")]
-        public async Task ListPlayers(CommandContext ctx)
-        {
-            await ctx.TriggerTypingAsync();
-
-            DiscordChannel channel = ctx.Channel;
-
-            if (channel == null)
-            {
-                await ctx.RespondAsync("You cannot list players for a game via direct message. Please re-try your request in a channel.");
-            } else
-            {
-                Dictionary<DiscordMember, string> playerList = _GetPlayerList(channel);
-                if (playerList.Count == 0)
-                {
-                    await ctx.RespondAsync("There is no Golden Sky Stories game currently running in this channel.");
-                }
-                else
-                {
-                    foreach (var item in playerList)
-                    {
-                        if (GSSModuleConfig.ListMentions)
-                        {
-                            await ctx.RespondAsync($"User {Formatter.Bold(item.Key.Mention)} is playing the character of {item.Value}.");
-                        }
-                        else
-                        {
-                            await ctx.RespondAsync($"User {Formatter.Bold(item.Key.DisplayName)} is playing the character of {item.Value}.");
-                        }
-                    }
-                }
+                ctx.RespondAsync($"Sorry, I can't find any { Formatter.Bold(_moduleIdentifier.Name)} data for {Formatter.Bold(ctx.Channel.Name)}. This will probably throw an error.");
+                throw new ChecksFailedException(ctx.Command, ctx, null);
             }
         }
 
 
-        [Command("list_characters"), Description("Returns the list of characters registered for this game, and the players who are playing them."), Aliases("listc", "listchars")]
-        public async Task ListCharacters(CommandContext ctx)
+        protected override async Task AddPlayer(CommandContext ctx, string[] arguments)
         {
-            await ctx.TriggerTypingAsync();
+            ModuleDataSourceBase dataSource = this.ChannelData(ctx);
+            
+            
+        }
 
-            DiscordChannel channel = ctx.Channel;
+        protected override async Task ListPlayers(CommandContext ctx, string[] arguments)
+        {
+            throw new NotImplementedException();
+        }
 
-            if (channel == null)
+        protected override void RegisterDelegates()
+        {
+            //throw new NotImplementedException();
+        }
+
+        protected override async Task RemovePlayer(CommandContext ctx, string[] arguments)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void SetupGameIdentifier()
+        {
+            this._moduleIdentifier = new SupportedGameIdentifier("Golden Sky Stories", "GSS",
+                "Kamiya, Honpo, Cluney, and Gardner", "http://starlinepublishing.com/our-games/golden-sky-stories/",
+                "Phoebe Zeitler (Bundled)", "https://github.com/pmzeitler/WumpusGameRunnerBot",
+                new string[] { "goldenskystories", "goldensky", "gss", "yuuyakekoyake", "goldsky" });
+        }
+
+        protected override async Task SetupGame(CommandContext ctx, string[] arguments)
+        {
+            ModuleDataSourceBase saveMe = MasterDataSingleton.Instance.GetDataSource(ctx.Channel);
+            if (saveMe == null || arguments.Contains("force"))
             {
-                await ctx.RespondAsync("You cannot list characters for a game via direct message. Please re-try your request in a channel.");
+                saveMe = new GSSModuleDataSource();
+                MasterDataSingleton.Instance.SetDataSourceForChannel(ctx.Channel, saveMe, false);
+                await ctx.RespondAsync($"Done! Channel {Formatter.Bold(ctx.Channel.Name)} is now hosting an instance of {Formatter.Bold(_moduleIdentifier.Name)}.");
             }
             else
             {
-                Dictionary<DiscordMember, string> playerList = _GetPlayerList(channel);
-                if (playerList.Count == 0)
-                {
-                    await ctx.RespondAsync("There is no Golden Sky Stories game currently running in this channel.");
-                }
-                else
-                {
-                    foreach (var item in playerList)
-                    {
-                        if (GSSModuleConfig.ListMentions)
-                        {
-                            await ctx.RespondAsync($"Character {Formatter.Bold(item.Value)} is played by {item.Key.Mention}.");
-                        }
-                        else
-                        {
-                            await ctx.RespondAsync($"Character {Formatter.Bold(item.Value)} is played by {item.Key.DisplayName}.");
-                        }
-                    }
-                }
+                await ctx.RespondAsync($"Another game is already running in {Formatter.Bold(ctx.Channel.Name)}. If you want to discard that game's data and start a new game, retry your command with the \"force\" argument.");
             }
         }
-
-        private Dictionary<DiscordMember, string> _GetPlayerList(DiscordChannel channel)
-        {
-            if (masterChannelList == null)
-            {
-                masterChannelList = new Dictionary<DiscordChannel, Dictionary<DiscordMember, string>>();
-            }
-            if (!masterChannelList.ContainsKey(channel))
-            {
-                masterChannelList.Add(channel, new Dictionary<DiscordMember, string>());
-            }
-
-            Dictionary<DiscordMember, string> registeredPlayers = masterChannelList[channel];
-            return registeredPlayers;
-        }
-
-        private void _RegisterPlayerInChannel(DiscordChannel channel, DiscordMember user, string characterName)
-        {
-            Dictionary<DiscordMember, string> registeredPlayers = _GetPlayerList(channel);
-
-            registeredPlayers[user] = characterName;
-        }
-
-
-
-
-
     }
 }
