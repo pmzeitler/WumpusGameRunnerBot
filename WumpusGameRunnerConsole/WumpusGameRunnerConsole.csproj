@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GameModuleBase.cs" />
     <Compile Include="GoldenSkyStories\GoldenSkyStoriesModule.cs" />
     <Compile Include="GoldenSkyStories\GSSModuleConfig.cs" />
     <Compile Include="MasterCommands.cs" />
