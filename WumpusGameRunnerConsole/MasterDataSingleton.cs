@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DSharpPlus.Entities;
+
 
 namespace net.PhoebeZeitler.WumpusGameRunnerConsole
 {
@@ -74,6 +76,43 @@ namespace net.PhoebeZeitler.WumpusGameRunnerConsole
         private void ReplaceDataSource(DiscordChannel channel, ModuleDataSourceBase dataSource)
         {
             _masterDataSource[channel] = dataSource;
+        }
+
+        public async Task SaveData(DiscordChannel channel)
+        {
+            if(!DoesDataExistForChannel(channel))
+            {
+                // do nothing;
+            } else
+            {
+                ModuleDataSourceBase dataToSave = _masterDataSource[channel];
+                ulong channelId = channel.Id;
+
+                string filePath = "WumpusData_" + dataToSave.ModuleIdentifier + "_" + channelId.ToString() + ".bin";
+                await Task.Run(new Action( delegate() {
+                    using (Stream stream = File.Open(filePath, FileMode.Create))
+                    {
+                        var binaryFormatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
+                        binaryFormatter.Serialize(stream, dataToSave);
+                    }
+                } ));
+
+            }
+        }
+
+        public async Task LoadData(DiscordChannel channel, string ModuleIdentifier)
+        {
+            ModuleDataSourceBase dataToLoad = null;
+            ulong channelId = channel.Id;
+            string filePath = "WumpusData_" + ModuleIdentifier + "_" + channelId.ToString() + ".bin";
+            await Task.Run(new Action(delegate ()
+            {
+                using (Stream stream = File.Open(filePath, FileMode.Open))
+                {
+                    var binaryFormatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
+                    dataToLoad = (ModuleDataSourceBase)binaryFormatter.Deserialize(stream);
+                }
+            } ));
         }
 
         public void SetDataSourceForChannel(DiscordChannel channel, ModuleDataSourceBase dataSource, bool safeMode = true)

@@ -11,6 +11,7 @@ namespace net.PhoebeZeitler.WumpusGameRunnerConsole
     /**
      * This is the base class for all modules' data source objects.
      */
+    [Serializable]
     public abstract class ModuleDataSourceBase : ISerializable
     {
         public string ModuleIdentifier
@@ -55,6 +56,7 @@ namespace net.PhoebeZeitler.WumpusGameRunnerConsole
     /**
      * This is the base abstract class for all modules' CharacterSheet objects.
      */
+    [Serializable]
     public abstract class ModuleCharacterSheet : ISerializable
     {
         public string ModuleIdentifier { get; private set; }
@@ -79,6 +81,7 @@ namespace net.PhoebeZeitler.WumpusGameRunnerConsole
         }
     }
 
+    [Serializable]
     public class StatisticScore : ISerializable
     {
         public string Name { get; private set; }
@@ -117,6 +120,7 @@ namespace net.PhoebeZeitler.WumpusGameRunnerConsole
         }
     }
 
+    [Serializable]
     public class StatisticWithModifier : StatisticScore, ISerializable
     {
         public int Modifier { get; private set; }

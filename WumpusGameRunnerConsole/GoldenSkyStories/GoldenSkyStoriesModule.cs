@@ -37,7 +37,6 @@ namespace net.PhoebeZeitler.WumpusGameRunnerConsole.GoldenSkyStoriesModule
             }
         }
 
-
         protected override async Task AddPlayer(CommandContext ctx, string[] arguments)
         {
             ModuleDataSourceBase dataSource = this.ChannelData(ctx);
@@ -47,7 +46,8 @@ namespace net.PhoebeZeitler.WumpusGameRunnerConsole.GoldenSkyStoriesModule
 
         protected override async Task ListPlayers(CommandContext ctx, string[] arguments)
         {
-            throw new NotImplementedException();
+            DiscordUser gameRunner = await GetUserBySerialData(ctx, DataSource(ctx).GameRunnerID);
+            await ctx.RespondAsync($"This channel's {Formatter.Bold(_moduleIdentifier.Name)} game is run by: {Formatter.Bold(gameRunner.Username)}");
         }
 
         protected override void RegisterDelegates()
@@ -74,6 +74,7 @@ namespace net.PhoebeZeitler.WumpusGameRunnerConsole.GoldenSkyStoriesModule
             if (saveMe == null || arguments.Contains("force"))
             {
                 saveMe = new GSSModuleDataSource();
+                saveMe.GameRunnerID = ctx.User.Id;
                 MasterDataSingleton.Instance.SetDataSourceForChannel(ctx.Channel, saveMe, false);
                 await ctx.RespondAsync($"Done! Channel {Formatter.Bold(ctx.Channel.Name)} is now hosting an instance of {Formatter.Bold(_moduleIdentifier.Name)}.");
             }
@@ -81,6 +82,16 @@ namespace net.PhoebeZeitler.WumpusGameRunnerConsole.GoldenSkyStoriesModule
             {
                 await ctx.RespondAsync($"Another game is already running in {Formatter.Bold(ctx.Channel.Name)}. If you want to discard that game's data and start a new game, retry your command with the \"force\" argument.");
             }
+        }
+
+        protected override async Task SaveGame(CommandContext ctx, string[] arguments)
+        {
+            await MasterDataSingleton.Instance.SaveData(ctx.Channel);
+        }
+
+        protected override async Task LoadGame(CommandContext ctx, string[] arguments)
+        {
+            await MasterDataSingleton.Instance.LoadData(ctx.Channel, this._moduleIdentifier.ShortName);
         }
     }
 }

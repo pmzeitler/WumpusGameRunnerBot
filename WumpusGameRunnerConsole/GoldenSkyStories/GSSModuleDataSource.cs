@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 
 namespace net.PhoebeZeitler.WumpusGameRunnerConsole.GoldenSkyStoriesModule
 {
-    public class GSSModuleDataSource : ModuleDataSourceBase
+    [Serializable]
+    public class GSSModuleDataSource : ModuleDataSourceBase, ISerializable
     {
         public GSSModuleDataSource()
         {

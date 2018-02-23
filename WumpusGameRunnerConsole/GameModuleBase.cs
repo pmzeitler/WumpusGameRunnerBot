@@ -31,6 +31,8 @@ namespace net.PhoebeZeitler.WumpusGameRunnerConsole
         protected abstract Task RemovePlayer(CommandContext ctx, string[] arguments);
         protected abstract Task ListPlayers(CommandContext ctx, string[] arguments);
         protected abstract Task SetupGame(CommandContext ctx, string[] arguments);
+        protected abstract Task SaveGame(CommandContext ctx, string[] arguments);
+        protected abstract Task LoadGame(CommandContext ctx, string[] arguments);
 
         protected ModuleDataSourceBase ChannelData(CommandContext ctx)
         {
@@ -84,6 +86,8 @@ namespace net.PhoebeZeitler.WumpusGameRunnerConsole
             RegisterDelegateWithAliases(RemovePlayer, new string[] { "remove_player", "drop_player", "leave_player", "removeplayer", "dropplayer", "leaveplayer" });
             RegisterDelegateWithAliases(ListPlayers, new string[] { "list_players", "whos_playing", "show_players", "listplayers", "whosplaying", "showplayers" });
             RegisterDelegateWithAliases(SetupGame, new string[] { "setup_game", "setupgame", "start_game", "startgame", "new_game", "newgame" });
+            RegisterDelegateWithAliases(SaveGame, new string[] { "save_game", "savegame" });
+            RegisterDelegateWithAliases(LoadGame, new string[] { "load_game", "loadgame" });
         }
 
     }
