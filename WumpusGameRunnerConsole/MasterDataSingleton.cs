@@ -80,11 +80,13 @@ namespace net.PhoebeZeitler.WumpusGameRunnerConsole
         {
             if (!DoesDataExistForChannel(channel))
             {
+                dataSource.HomeChannel = channel.Id;
                 SetNewDataSource(channel, dataSource);
             } else
             {
                 if(!safeMode)
                 {
+                    dataSource.HomeChannel = channel.Id;
                     ReplaceDataSource(channel, dataSource);
                 } 
                 //TODO: better exception handling

@@ -55,6 +55,15 @@ namespace net.PhoebeZeitler.WumpusGameRunnerConsole
                 await runMe(ctx, arguments);
             }
         }
+
+        protected async Task<DiscordUser> GetUserBySerialData(CommandContext ctx, ulong userId)
+        {
+            return await ctx.Client.GetUserAsync(userId);
+        }
+        protected async Task<DiscordChannel> GetChannelBySerialData(CommandContext ctx, ulong channelId)
+        {
+            return await ctx.Client.GetChannelAsync(channelId);
+        }
         
         protected void RegisterDelegateWithAlias(CommandType commandDelegate, string commandName)
         {
