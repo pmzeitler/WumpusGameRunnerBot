@@ -51,7 +51,7 @@ namespace net.PhoebeZeitler.WumpusGameRunnerConsole
 
         [Command("gamerunner")]
         [Description("Prefix for all commands.\nExample: \ngamerunner gss start_game\nStart a new game using the gss module.")]
-        [Aliases("game,dm,run,do")]
+        [Aliases("game","dm","run","do")]
         public async Task ProcessCommand(CommandContext ctx, params string[] argumentsIn)
         {
             await ctx.TriggerTypingAsync();
@@ -73,7 +73,8 @@ namespace net.PhoebeZeitler.WumpusGameRunnerConsole
             string[] argumentsToLower = new string[argumentsIn.Count() - startIndex];
             for (int i = startIndex; i < argumentsIn.Count(); i++)
             {
-                argumentsToLower[i] = argumentsIn[i].ToLower();
+                int newIndex = i - startIndex;
+                argumentsToLower[newIndex] = argumentsIn[i].ToLower();
             }
 
             await ctx.RespondAsync($"OK, attempting to run {Formatter.Italic(commandName)} for module {Formatter.Italic(moduleName)}...");
