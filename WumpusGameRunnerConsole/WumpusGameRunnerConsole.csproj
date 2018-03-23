@@ -64,13 +64,16 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="config.example.json" />
-    <None Include="config.json" />
+    <None Include="config.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="GoldenSkyStories\gssconfig.example.json" />
     <None Include="GoldenSkyStories\gssconfig.json" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy $(ProjectDir)config.json $(TargetDir)</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
 </Project>

@@ -155,7 +155,7 @@ namespace net.PhoebeZeitler.WumpusGameRunnerConsole
 
             // let's check if the error is a result of lack
             // of required permissions
-            if (e.Exception is ChecksFailedException ex)
+            if (e.Exception is ChecksFailedException )
             {
                 // yes, the user lacks required permissions, 
                 // let them know
